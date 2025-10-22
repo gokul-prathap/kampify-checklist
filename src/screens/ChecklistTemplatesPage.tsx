@@ -9,7 +9,7 @@ import './ChecklistTemplatesPage.css';
 export const ChecklistTemplatesPage: React.FC = () => {
   const { areaId } = useParams<{ areaId: string }>();
   const navigate = useNavigate();
-  const { areas, getTemplatesByArea, getCategoriesByArea, generateTasksFromTemplates, selectedDate } = useAppStore();
+  const { areas, getTemplatesByArea, getCategoriesByArea } = useAppStore();
   
   const area = areas.find(a => a.id === areaId);
   const templates = areaId ? getTemplatesByArea(areaId) : [];
