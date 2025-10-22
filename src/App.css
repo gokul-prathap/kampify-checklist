@@ -1,0 +1,30 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__main {
+  flex: 1;
+  padding-bottom: 80px; /* Space for bottom navigation */
+  overflow-y: auto;
+}
+
+/* Mobile-first responsive design */
+@media (min-width: 768px) {
+  .app {
+    max-width: 768px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .app {
+    max-width: 1024px;
+  }
+  
+  .app__main {
+    padding-bottom: 0;
+  }
+}

@@ -1,0 +1,81 @@
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.area-grid__card {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+}
+
+.area-grid__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-align: center;
+}
+
+.area-grid__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-lg);
+  color: var(--color-muted);
+}
+
+.area-grid__title {
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+/* Fifth item (center it in the grid) */
+.area-grid__card:nth-child(5) {
+  grid-column: 1 / -1;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .area-grid {
+    gap: var(--spacing-md);
+  }
+  
+  .area-grid__card {
+    min-height: 100px;
+  }
+  
+  .area-grid__icon {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .area-grid__title {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) {
+  .area-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Reset fifth item styling for larger screens */
+  .area-grid__card:nth-child(5) {
+    grid-column: auto;
+    max-width: none;
+    margin: 0;
+  }
+}
