@@ -94,7 +94,7 @@ const mockTasks: TaskInstance[] = [
 
 export const useAppStore = create<AppStore>((set, get) => ({
   // Initial state
-  user: mockUser,
+  user: null,
   areas: mockAreas,
   tasks: mockTasks,
   templates: predefinedTaskTemplates,
@@ -102,8 +102,8 @@ export const useAppStore = create<AppStore>((set, get) => ({
   selectedDate: format(new Date(), 'yyyy-MM-dd'),
   isOffline: false,
   syncStatus: 'idle',
-  isAuthenticated: true,
-  token: 'demo-token',
+  isAuthenticated: false,
+  token: localStorage.getItem('auth-token'),
 
   // Actions
   setUser: (user) => set({ user }),
