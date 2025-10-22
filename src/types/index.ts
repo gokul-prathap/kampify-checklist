@@ -95,4 +95,6 @@ export interface AppState {
   selectedDate: string;
   isOffline: boolean;
   syncStatus: 'idle' | 'syncing' | 'error';
+  isAuthenticated: boolean;
+  token: string | null;
 }

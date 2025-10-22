@@ -30,7 +30,7 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="login-page">
       <div className="login-page__container">
-        <Card className="login-card" padding="xl" shadow="lg">
+        <Card className="login-card" padding="lg" shadow="lg">
           <div className="login-header">
             <h1>Kampify Checklist</h1>
             <p>Sign in to manage your kampify tasks</p>

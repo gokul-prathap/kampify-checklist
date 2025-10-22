@@ -30,10 +30,7 @@ export const ChecklistTemplatesPage: React.FC = () => {
     ? templates.filter(t => t.category === selectedCategory)
     : templates;
 
-  const handleGenerateTasks = () => {
-    generateTasksFromTemplates(selectedDate);
-    navigate(`/area/${areaId}`);
-  };
+
 
   return (
     <div className="checklist-templates-page">

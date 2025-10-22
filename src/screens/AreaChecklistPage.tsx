@@ -12,7 +12,6 @@ export const AreaChecklistPage: React.FC = () => {
   const { 
     areas, 
     getTasksByArea, 
-    getTasksByAreaAndCategory,
     getCategoriesByArea,
     toggleTaskStatus, 
     generateTasksFromTemplates, 

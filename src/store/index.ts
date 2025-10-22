@@ -203,7 +203,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
         updatedAt: new Date().toISOString(),
       }));
     
-    set(state => ({ tasks: newTasks }));
+    set(() => ({ tasks: newTasks }));
   },
 
   downloadTasksAsJSON: (date) => {
@@ -222,20 +222,21 @@ export const useAppStore = create<AppStore>((set, get) => ({
   login: async (email, password) => {
     // Mock authentication - replace with real API call
     const users = [
-      { email: 'manager@kampify.com', password: 'password', ...mockUser, role: 'manager' as const },
-      { email: 'staff@kampify.com', password: 'password', id: '2', name: 'Staff User', role: 'staff' as const, allowedAreas: ['1', '2'] },
+      { ...mockUser, email: 'manager@kampify.com', password: 'password', role: 'manager' as const },
+      { id: '2', name: 'Staff User', email: 'staff@kampify.com', password: 'password', role: 'staff' as const, allowedAreas: ['1', '2'] },
     ];
     
-    const user = users.find(u => u.email === email && u.password === password);
-    if (!user) {
+    const foundUser = users.find(u => u.email === email && u.password === password);
+    if (!foundUser) {
       throw new Error('Invalid credentials');
     }
     
     const token = `mock-token-${Date.now()}`;
     localStorage.setItem('auth-token', token);
     
+    const { password: _, ...userWithoutPassword } = foundUser;
     set({ 
-      user: { ...user, password: undefined }, 
+      user: userWithoutPassword, 
       isAuthenticated: true, 
       token 
     });

@@ -7,7 +7,7 @@ import { ProfileDropdown } from './ProfileDropdown';
 import './AppHeader.css';
 
 export const AppHeader: React.FC = () => {
-  const { user, selectedDate, setSelectedDate } = useAppStore();
+  const { selectedDate, setSelectedDate } = useAppStore();
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const formattedDate = format(new Date(selectedDate), 'EEEE, MMM d');

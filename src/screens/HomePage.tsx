@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
 import { useAppStore } from '../store';
-import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { AppHeader } from '../components/AppHeader';
@@ -14,7 +12,7 @@ import './HomePage.css';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { selectedDate, areas, getQuickStats, getRecentActivity, generateTasksFromTemplates, tasks } = useAppStore();
+  const { selectedDate, areas, getQuickStats, getRecentActivity, generateTasksFromTemplates } = useAppStore();
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   
   // Auto-generate tasks for today
