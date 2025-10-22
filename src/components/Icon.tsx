@@ -51,6 +51,7 @@ export const Icon: React.FC<IconProps> = ({
       case 'success': return '✅';
       case 'info': return 'ℹ️';
       case 'clock': return '🕐';
+      case 'logout': return '🚪';
       default: return '?';
     }
   };

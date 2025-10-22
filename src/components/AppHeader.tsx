@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { useAppStore } from '../store';
 import { Icon } from './Icon';
 import { DatePickerModal } from './DatePickerModal';
+import { ProfileDropdown } from './ProfileDropdown';
 import './AppHeader.css';
 
 export const AppHeader: React.FC = () => {
@@ -14,7 +15,7 @@ export const AppHeader: React.FC = () => {
   return (
     <header className="app-header">
       <div className="app-header__left">
-        <h1 className="app-header__title">Resort Checklist</h1>
+        <h1 className="app-header__title">Kampify Checklist</h1>
       </div>
       
       <button 
@@ -27,20 +28,7 @@ export const AppHeader: React.FC = () => {
       </button>
       
       <div className="app-header__right">
-        <button 
-          className="app-header__profile"
-          aria-label={`Profile: ${user?.name || 'User'}`}
-        >
-          {user?.avatarUrl ? (
-            <img 
-              src={user.avatarUrl} 
-              alt={user.name}
-              className="app-header__avatar"
-            />
-          ) : (
-            <Icon name="user" size={24} />
-          )}
-        </button>
+        <ProfileDropdown />
       </div>
 
       {showDatePicker && (

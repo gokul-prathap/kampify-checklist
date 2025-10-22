@@ -17,7 +17,8 @@ export const AreaChecklistPage: React.FC = () => {
     toggleTaskStatus, 
     generateTasksFromTemplates, 
     selectedDate,
-    templates 
+    templates,
+    downloadTasksAsJSON
   } = useAppStore();
   
   const [selectedTab, setSelectedTab] = useState<'all' | 'pending' | 'completed'>('all');
@@ -26,16 +27,18 @@ export const AreaChecklistPage: React.FC = () => {
   const allTasks = areaId ? getTasksByArea(areaId) : [];
   const categories = areaId ? getCategoriesByArea(areaId) : [];
   
-  // Auto-generate tasks from templates when entering area
-  useEffect(() => {
-    generateTasksFromTemplates(selectedDate);
-  }, [selectedDate, generateTasksFromTemplates]);
-  
   const filteredTasks = allTasks.filter(task => {
     if (selectedTab === 'pending') return task.status === 'pending';
     if (selectedTab === 'completed') return task.status === 'completed';
     return true;
   });
+  
+  // Auto-generate tasks from templates when entering area
+  useEffect(() => {
+    if (areaId) {
+      generateTasksFromTemplates(selectedDate);
+    }
+  }, [areaId, selectedDate, generateTasksFromTemplates]);
 
   if (!area) {
     return (
@@ -97,11 +100,12 @@ export const AreaChecklistPage: React.FC = () => {
         <Button
           variant="secondary"
           size="sm"
-          icon={<Icon name="settings" />}
-          onClick={() => navigate(`/area/${areaId}/templates`)}
+          icon={<Icon name="download" />}
+          onClick={() => downloadTasksAsJSON(selectedDate)}
         >
-          Templates
+          Export
         </Button>
+
       </div>
 
       <div className="area-checklist-page__tabs">
@@ -130,9 +134,12 @@ export const AreaChecklistPage: React.FC = () => {
               <p>No tasks found</p>
               <Button
                 variant="primary"
-                onClick={() => navigate(`/area/${areaId}/templates`)}
+                onClick={() => {
+                  generateTasksFromTemplates(selectedDate);
+                  window.location.reload();
+                }}
               >
-                View Templates
+                Generate Tasks
               </Button>
             </div>
           </Card>

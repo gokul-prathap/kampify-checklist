@@ -1,13 +1,13 @@
-# Resort Checklist Web Application
+# Kampify Checklist Web Application
 
-A comprehensive mobile-first checklist application for resort maintenance with structured task templates, offline-first sync capabilities, and role-based permissions.
+A comprehensive mobile-first checklist application for kampify maintenance with structured task templates, offline-first sync capabilities, and role-based permissions.
 
 ## 🚀 Features Implemented
 
 ### ✅ Core Features
 - **Home Dashboard** with quick stats, area grid, and recent activity
 - **Area-based Checklists** with categorized tasks
-- **Task Templates** with predefined resort maintenance checklists
+- **Task Templates** with predefined kampify maintenance checklists
 - **Task Management** with status tracking and priority levels
 - **Date-based Task Generation** from templates
 - **Responsive Design** with mobile-first approach

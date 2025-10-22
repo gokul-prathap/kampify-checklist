@@ -17,10 +17,10 @@ export const HomePage: React.FC = () => {
   const { selectedDate, areas, getQuickStats, getRecentActivity, generateTasksFromTemplates, tasks } = useAppStore();
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   
-  // Auto-generate tasks for today if none exist
+  // Auto-generate tasks for today
   useEffect(() => {
     generateTasksFromTemplates(selectedDate);
-  }, [selectedDate, generateTasksFromTemplates]);
+  }, []);
   
   const quickStats = getQuickStats();
   const recentActivity = getRecentActivity();

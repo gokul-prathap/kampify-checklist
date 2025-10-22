@@ -18,6 +18,9 @@ interface AppStore extends AppState {
   getTasksByAreaAndCategory: (areaId: string, category?: string) => TaskInstance[];
   getTemplatesByArea: (areaId: string) => TaskTemplate[];
   getCategoriesByArea: (areaId: string) => string[];
+  downloadTasksAsJSON: (date: string) => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
   
   // Computed values
   getQuickStats: () => QuickStats;
@@ -37,8 +40,8 @@ const mockAreas: Area[] = [
 
 const mockUser: User = {
   id: '1',
-  name: 'John Manager',
-  email: 'john@resort.com',
+  name: 'edwin',
+  email: 'edwin@kampify.com',
   role: 'manager',
   allowedAreas: ['1', '2', '3', '4', '5'],
 };
@@ -91,7 +94,7 @@ const mockTasks: TaskInstance[] = [
 
 export const useAppStore = create<AppStore>((set, get) => ({
   // Initial state
-  user: mockUser,
+  user: null,
   areas: mockAreas,
   tasks: mockTasks,
   templates: predefinedTaskTemplates,
@@ -99,6 +102,8 @@ export const useAppStore = create<AppStore>((set, get) => ({
   selectedDate: format(new Date(), 'yyyy-MM-dd'),
   isOffline: false,
   syncStatus: 'idle',
+  isAuthenticated: false,
+  token: localStorage.getItem('auth-token'),
 
   // Actions
   setUser: (user) => set({ user }),
@@ -178,30 +183,71 @@ export const useAppStore = create<AppStore>((set, get) => ({
   },
 
   generateTasksFromTemplates: (date) => {
-    const { templates, tasks } = get();
-    const existingTasksForDate = tasks.filter(task => task.date === date);
+    const { templates } = get();
     
-    if (existingTasksForDate.length === 0) {
-      const newTasks = templates
-        .filter(template => template.frequency.type === 'daily')
-        .map((template, index) => ({
-          id: `${template.id}-${date}-${index}`,
-          templateId: template.id,
-          areaId: template.areaId,
-          title: template.title,
-          description: template.description,
-          date,
-          status: 'pending' as const,
-          priority: template.priority,
-          assigneeId: template.defaultAssigneeId,
-          notes: [],
-          attachments: [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        }));
-      
-      set(state => ({ tasks: [...state.tasks, ...newTasks] }));
+    const newTasks = templates
+      .filter(template => template.frequency.type === 'daily')
+      .map((template, index) => ({
+        id: `${template.id}-${date}-${index}`,
+        templateId: template.id,
+        areaId: template.areaId,
+        title: template.title,
+        description: template.description,
+        date,
+        status: 'pending' as const,
+        priority: template.priority,
+        assigneeId: template.defaultAssigneeId,
+        notes: [],
+        attachments: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }));
+    
+    set(state => ({ tasks: newTasks }));
+  },
+
+  downloadTasksAsJSON: (date) => {
+    const { tasks } = get();
+    const dateTasks = tasks.filter(task => task.date === date);
+    const dataStr = JSON.stringify(dateTasks, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `kampify-checklist-${date}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  },
+
+  login: async (email, password) => {
+    // Mock authentication - replace with real API call
+    const users = [
+      { email: 'manager@kampify.com', password: 'password', ...mockUser, role: 'manager' as const },
+      { email: 'staff@kampify.com', password: 'password', id: '2', name: 'Staff User', role: 'staff' as const, allowedAreas: ['1', '2'] },
+    ];
+    
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) {
+      throw new Error('Invalid credentials');
     }
+    
+    const token = `mock-token-${Date.now()}`;
+    localStorage.setItem('auth-token', token);
+    
+    set({ 
+      user: { ...user, password: undefined }, 
+      isAuthenticated: true, 
+      token 
+    });
+  },
+
+  logout: () => {
+    localStorage.removeItem('auth-token');
+    set({ 
+      user: null, 
+      isAuthenticated: false, 
+      token: null 
+    });
   },
 
   getTasksByAreaAndCategory: (areaId, category) => {
@@ -231,4 +277,5 @@ export const useAppStore = create<AppStore>((set, get) => ({
     const categories = [...new Set(areaTemplates.map(t => t.category).filter(Boolean))];
     return categories as string[];
   },
+
 }));
